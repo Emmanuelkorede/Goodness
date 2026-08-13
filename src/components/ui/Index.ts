@@ -1,6 +1,6 @@
-export { Button } from "./button";
-export { IconButton } from "./iconButton";
-export { Card } from "./card";
+export { Button } from "./Button";
+export { IconButton } from "./IconButton";
+export { Card } from "./Card";
 export { ProgressBar } from "./progressBar";
-export { Badge } from "./badge";
+export { Badge } from "./Badge";
 export { Modal } from "./modal";
