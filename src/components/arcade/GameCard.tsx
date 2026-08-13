@@ -1,6 +1,6 @@
 import { Link } from "react-router";
-import { Card } from "../ui/";
-import { Badge } from "../ui/Badge";
+import { Card } from "../ui/card";
+import { Badge } from "../ui/badge";
 import { useHighScore } from "../../hooks/useHighScore";
 import type { GameDefinition } from "../../types/game";
 
