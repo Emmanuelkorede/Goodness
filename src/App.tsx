@@ -1,20 +1,23 @@
 import { Route, Routes } from "react-router";
+import { Splash } from "./pages/Splash";
+import { Home } from "./pages/Home";
+import { CatchStarsPage } from "./pages/games/CathStarsPage";
+import { MiniRacingPage } from "./pages/games/miniRacingPage";
+import { ButterflyCollectorPage } from "./pages/games/ButterflyCollectorPage";
+import { BalloonPopPage } from "./pages/games/BallonsPoPage";
+import { BrainQuestPage } from "./pages/games/BrainquestPage";
 import "./App.css";
-
-function Placeholder({ label }: { label: string }) {
-  return <div className="text-text p-6">{label}</div>;
-}
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Placeholder label="Splash" />} />
-      <Route path="/arcade" element={<Placeholder label="Home / Arcade" />} />
-      <Route path="/games/catch-stars" element={<Placeholder label="Catch the Stars" />} />
-      <Route path="/games/mini-racing" element={<Placeholder label="Mini Racing" />} />
-      <Route path="/games/butterfly-collector" element={<Placeholder label="Butterfly Collector" />} />
-      <Route path="/games/balloon-pop" element={<Placeholder label="Balloon Pop" />} />
-      <Route path="/games/brain-quest" element={<Placeholder label="Brain Quest" />} />
+      <Route path="/" element={<Splash />} />
+      <Route path="/arcade" element={<Home />} />
+      <Route path="/games/catch-stars" element={<CatchStarsPage />} />
+      <Route path="/games/mini-racing" element={<MiniRacingPage />} />
+      <Route path="/games/butterfly-collector" element={<ButterflyCollectorPage />} />
+      <Route path="/games/balloon-pop" element={<BalloonPopPage />} />
+      <Route path="/games/brain-quest" element={<BrainQuestPage />} />
     </Routes>
   );
 }
