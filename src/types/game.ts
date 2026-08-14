@@ -9,6 +9,7 @@ export interface GameDefinition {
   icon: string;
   route: string;
   category: GameCategory;
+  accent: string;
 }
 
 export interface GameScore {

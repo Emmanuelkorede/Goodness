@@ -8,6 +8,7 @@ export const gameRegistry: GameDefinition[] = [
     icon: "⭐",
     route: "/games/catch-stars",
     category: "arcade",
+    accent: "#fbbf24",
   },
   {
     id: "mini-racing",
@@ -16,6 +17,7 @@ export const gameRegistry: GameDefinition[] = [
     icon: "🏎️",
     route: "/games/mini-racing",
     category: "arcade",
+    accent: "#fb7185",
   },
   {
     id: "butterfly-collector",
@@ -24,6 +26,7 @@ export const gameRegistry: GameDefinition[] = [
     icon: "🦋",
     route: "/games/butterfly-collector",
     category: "arcade",
+    accent: "#a78bfa",
   },
   {
     id: "balloon-pop",
@@ -32,6 +35,7 @@ export const gameRegistry: GameDefinition[] = [
     icon: "🎈",
     route: "/games/balloon-pop",
     category: "arcade",
+    accent: "#22d3ee",
   },
   {
     id: "brain-quest",
@@ -40,5 +44,10 @@ export const gameRegistry: GameDefinition[] = [
     icon: "🧠",
     route: "/games/brain-quest",
     category: "educational",
+    accent: "#34d399",
   },
 ];
+
+export function getGameAccent(id: string): string {
+  return gameRegistry.find((g) => g.id === id)?.accent ?? "#8b5cf6";
+}

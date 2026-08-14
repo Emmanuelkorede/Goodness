@@ -2,6 +2,8 @@ import { GameShell } from "../../../components/game-shell/GameShell";
 
 import { ButterflyCollectorGame } from "./Butterflycollectorgame";
 
+import { getGameAccent } from "../../../data/gameRegistry";
+
 export function ButterflyCollector() {
   return (
     <GameShell
@@ -9,6 +11,7 @@ export function ButterflyCollector() {
       icon="🦋"
       title="Butterfly Collector"
       instructions="Tap the butterflies before they flutter away. They get faster and rarer as time runs out."
+      accent={getGameAccent("butterfly-collector")}
       rules={[
         { icon: "🦋", label: "Butterfly = +1" },
         { icon: "💠", label: "Rare butterfly = +5" },

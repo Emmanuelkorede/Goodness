@@ -1,6 +1,9 @@
 import { GameShell } from "../../../components/game-shell/GameShell";
 import { BalloonPopGame } from "./Ballonpopgame";
 
+
+import { getGameAccent } from "../../../data/gameRegistry";
+
 export function BalloonPop() {
   return (
     <GameShell
@@ -8,6 +11,7 @@ export function BalloonPop() {
       icon="🎈"
       title="Balloon Pop"
       instructions="Pop as many balloons as you can before time runs out. Chain pops without missing to build a combo multiplier."
+      accent={getGameAccent("balloon-pop")}
       rules={[
         { icon: "🎈", label: "Balloon = +1" },
         { icon: "🔵", label: "Rare balloon = +3" },

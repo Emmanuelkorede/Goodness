@@ -26,11 +26,12 @@ interface GameShellProps {
   icon: string;
   title: string;
   instructions: string;
+  accent: string;
   rules?: RuleLine[];
   children: (props: GameShellChildProps) => ReactNode;
 }
 
-export function GameShell({ gameId, icon, title, instructions, rules, children }: GameShellProps) {
+export function GameShell({ gameId, icon, title, instructions, accent, rules, children }: GameShellProps) {
   const navigate = useNavigate();
   const [phase, setPhase] = useState<GamePhase>("intro");
   const [lastScore, setLastScore] = useState(0);
@@ -77,6 +78,7 @@ export function GameShell({ gameId, icon, title, instructions, rules, children }
           instructions={instructions}
           rules={rules}
           bestScore={highScore}
+          accent={accent}
           onPlay={() => setPhase("countdown")}
         />
       )}
