@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import type { PointerEvent as ReactPointerEvent, RefObject } from "react";
 import { GameHud } from "../../../components/game-shell/GameHud";
-import { Badge } from "../../../components/ui/Badge";
+import { Badge } from "../../../components/ui/badge";
 import { FallingObjectSprite } from "./FallingObjectSprite";
 import { Basket } from "./Basket";
 import { useBasketControl } from "../hooks/useBaskteControl";

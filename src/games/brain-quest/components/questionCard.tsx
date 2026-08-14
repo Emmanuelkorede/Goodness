@@ -1,5 +1,5 @@
 import { ProgressBar } from "../../../components/ui/progressBar";
-import { Badge } from "../../../components/ui/Badge";
+import { Badge } from "../../../components/ui/badge";
 import { AnswerOption } from "./answerOption";
 import type { Question } from "../types";
 import type { AnswerState } from "../hooks/useBrainquestgame";

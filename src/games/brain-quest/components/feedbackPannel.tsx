@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Button } from "../../../components/ui/Button";
+import { Button } from "../../../components/ui/button";
 import { usePrefersReducedMotion } from "../../../hooks/usePrefersReducedMotion";
 import type { Question } from "../types";
 import type { AnswerState } from "../hooks/useBrainquestgame";

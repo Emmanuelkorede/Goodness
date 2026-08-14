@@ -5,9 +5,9 @@ import { X } from "lucide-react";
 import { GameIntro } from "./GameIntro";
 import { GameCountdown } from "./Gamecountdown";
 import { GameResult } from "./GameResult";
-import { IconButton } from "../ui/IconButton";
+import { IconButton } from "../ui/iconButton";
 import { Modal } from "../ui/modal";
-import { Button } from "../ui/Button";
+import { Button } from "../ui/button";
 import { useHighScore } from "../../hooks/useHighScore";
 import type { GamePhase } from "../../types/game";
 

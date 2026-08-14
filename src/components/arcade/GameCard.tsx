@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { Card } from "../ui/Card";
+import { Card } from "../ui/card";
 import { useHighScore } from "../../hooks/useHighScore";
 import type { GameDefinition } from "../../types/game";
 

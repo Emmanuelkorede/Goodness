@@ -1,6 +1,6 @@
 import { AnimatePresence } from "framer-motion";
 import { GameHud } from "../../../components/game-shell/GameHud";
-import { Badge } from "../../../components/ui/Badge";
+import { Badge } from "../../../components/ui/badge";
 import { BalloonSprite } from "./BallonSprite";
 import { useBalloonPopGame } from "../hooks/useballonpopgame";
 import type { RefObject } from "react";
