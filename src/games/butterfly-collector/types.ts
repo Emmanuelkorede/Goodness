@@ -5,4 +5,6 @@ export interface Butterfly {
   size: number;
   color: string;
   points: number;
+  spawnedAt: number;
+  lifespan: number;
 }

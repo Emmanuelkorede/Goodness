@@ -6,4 +6,5 @@ export interface Balloon {
   color: string;
   points: number;
   isBonus: boolean;
+  spawnedAt: number;
 }

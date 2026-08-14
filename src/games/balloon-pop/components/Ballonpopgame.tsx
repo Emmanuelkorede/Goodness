@@ -3,13 +3,15 @@ import { GameHud } from "../../../components/game-shell/GameHud";
 import { Badge } from "../../../components/ui/Badge";
 import { BalloonSprite } from "./BallonSprite";
 import { useBalloonPopGame } from "../hooks/useballonpopgame";
+import type { RefObject } from "react";
 
 interface BalloonPopGameProps {
   onGameOver: (score: number) => void;
+  pausedRef: RefObject<boolean>;
 }
 
-export function BalloonPopGame({ onGameOver }: BalloonPopGameProps) {
-  const { balloons, score, combo, timeRemaining, totalTime, pop } = useBalloonPopGame(onGameOver);
+export function BalloonPopGame({ onGameOver, pausedRef }: BalloonPopGameProps) {
+  const { balloons, score, combo, timeRemaining, totalTime, pop } = useBalloonPopGame(pausedRef, onGameOver);
   const multiplier = 1 + Math.floor(combo / 3) * 0.5;
 
   return (

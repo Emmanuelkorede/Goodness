@@ -14,7 +14,7 @@ export function BalloonPop() {
         { icon: "🌟", label: "Golden balloon = +5" },
       ]}
     >
-      {({ onGameOver }) => <BalloonPopGame onGameOver={onGameOver} />}
+      {({ onGameOver, pausedRef }) => <BalloonPopGame onGameOver={onGameOver} pausedRef={pausedRef} />}
     </GameShell>
   );
 }

@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import type { PointerEvent as ReactPointerEvent } from "react";
+import type { PointerEvent as ReactPointerEvent, RefObject } from "react";
 import { GameHud } from "../../../components/game-shell/GameHud";
 import { Badge } from "../../../components/ui/Badge";
 import { FallingObjectSprite } from "./FallingObjectSprite";
@@ -9,12 +9,17 @@ import { useCatchStarsGame } from "../hooks/useCatchStargame";
 
 interface CatchStarsGameProps {
   onGameOver: (score: number) => void;
+  pausedRef: RefObject<boolean>;
 }
 
-export function CatchStarsGame({ onGameOver }: CatchStarsGameProps) {
+export function CatchStarsGame({ onGameOver, pausedRef }: CatchStarsGameProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { basketX, basketXRef, handlePointerMove } = useBasketControl();
-  const { objects, score, combo, timeRemaining, totalTime } = useCatchStarsGame({ basketXRef, onGameOver });
+  const { objects, score, combo, timeRemaining, totalTime } = useCatchStarsGame({
+    basketXRef,
+    pausedRef,
+    onGameOver,
+  });
 
   const multiplier = 1 + Math.floor(combo / 5) * 0.5;
 

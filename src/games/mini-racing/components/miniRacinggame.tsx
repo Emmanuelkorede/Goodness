@@ -1,16 +1,16 @@
 import { useRef } from "react";
-import type { PointerEvent as ReactPointerEvent } from "react";
+import type { PointerEvent as ReactPointerEvent, RefObject } from "react";
 import { GameHud } from "../../../components/game-shell/GameHud";
 import { useMiniRacingGame } from "../hooks/useMiniRacinggame";
 
 interface MiniRacingGameProps {
   onGameOver: (score: number) => void;
+  pausedRef: RefObject<boolean>;
 }
 
-export function MiniRacingGame({ onGameOver }: MiniRacingGameProps) {
-  // FIX: Added '!' to null to bypass the strict null check mismatch
-  const canvasRef = useRef<HTMLCanvasElement>(null!);
-  const { score, speed, setPointerX } = useMiniRacingGame(canvasRef, onGameOver);
+export function MiniRacingGame({ onGameOver, pausedRef }: MiniRacingGameProps) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { score, speed, setPointerX } = useMiniRacingGame(canvasRef, pausedRef, onGameOver);
 
   const onPointerMove = (e: ReactPointerEvent<HTMLCanvasElement>) => {
     setPointerX(e.clientX, e.currentTarget.getBoundingClientRect());

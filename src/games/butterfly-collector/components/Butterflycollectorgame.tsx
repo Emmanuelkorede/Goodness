@@ -1,14 +1,16 @@
 import { AnimatePresence } from "framer-motion";
+import type { RefObject } from "react";
 import { GameHud } from "../../../components/game-shell/GameHud";
 import { ButterflySprite } from "./ButterflySprite";
 import { useButterflyGame } from "../hooks/useButterflygame";
 
 interface ButterflyCollectorGameProps {
   onGameOver: (score: number) => void;
+  pausedRef: RefObject<boolean>;
 }
 
-export function ButterflyCollectorGame({ onGameOver }: ButterflyCollectorGameProps) {
-  const { butterflies, score, timeRemaining, totalTime, catchButterfly } = useButterflyGame(onGameOver);
+export function ButterflyCollectorGame({ onGameOver, pausedRef }: ButterflyCollectorGameProps) {
+  const { butterflies, score, timeRemaining, totalTime, catchButterfly } = useButterflyGame(pausedRef, onGameOver);
 
   return (
     <div className="relative flex-1 overflow-hidden">

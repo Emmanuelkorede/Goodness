@@ -9,7 +9,11 @@ const PLAYER_BOTTOM_MARGIN = 24;
 const KEY_MOVE_SPEED = 420;
 const DISPLAY_TICK_MS = 150;
 
-export function useMiniRacingGame(canvasRef: RefObject<HTMLCanvasElement | null>, onGameOver: (score: number) => void) {
+export function useMiniRacingGame(
+  canvasRef: RefObject<HTMLCanvasElement | null>,
+  pausedRef: RefObject<boolean>,
+  onGameOver: (score: number) => void
+) {
   const [score, setScore] = useState(0);
   const [speed, setSpeed] = useState(0);
 
@@ -21,6 +25,7 @@ export function useMiniRacingGame(canvasRef: RefObject<HTMLCanvasElement | null>
   const spawnAccumulatorRef = useRef(0);
   const startRef = useRef(0);
   const lastFrameRef = useRef(0);
+  const pauseBeganAtRef = useRef<number | null>(null);
   const rafRef = useRef<number | null>(null);
   const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const idRef = useRef(0);
@@ -44,6 +49,8 @@ export function useMiniRacingGame(canvasRef: RefObject<HTMLCanvasElement | null>
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+
+    endedRef.current = false;
 
     function resize() {
       const parent = canvas!.parentElement;
@@ -106,6 +113,19 @@ export function useMiniRacingGame(canvasRef: RefObject<HTMLCanvasElement | null>
 
     function loop(timestamp: number) {
       if (endedRef.current) return;
+
+      if (pausedRef.current) {
+        if (pauseBeganAtRef.current === null) pauseBeganAtRef.current = timestamp;
+        lastFrameRef.current = timestamp;
+        draw(ctx!);
+        rafRef.current = requestAnimationFrame(loop);
+        return;
+      }
+      if (pauseBeganAtRef.current !== null) {
+        startRef.current += timestamp - pauseBeganAtRef.current;
+        pauseBeganAtRef.current = null;
+      }
+
       const dt = (timestamp - lastFrameRef.current) / 1000;
       lastFrameRef.current = timestamp;
       const elapsed = timestamp - startRef.current;
@@ -163,6 +183,7 @@ export function useMiniRacingGame(canvasRef: RefObject<HTMLCanvasElement | null>
     rafRef.current = requestAnimationFrame(loop);
 
     tickRef.current = setInterval(() => {
+      if (pausedRef.current) return;
       setScore(Math.floor(distanceRef.current / 10));
       setSpeed(Math.round(speedRef.current));
     }, DISPLAY_TICK_MS);

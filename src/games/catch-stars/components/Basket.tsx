@@ -5,7 +5,7 @@ interface BasketProps {
 export function Basket({ x }: BasketProps) {
   return (
     <div
-      className="absolute bottom-[10%] flex h-12 w-24 items-center justify-center rounded-2xl border border-border-soft bg-surface text-3xl shadow-card"
+      className="absolute bottom-[10%] flex h-16 w-32 items-center justify-center rounded-2xl border border-border-soft bg-surface text-4xl shadow-card"
       style={{ left: `${x}%`, transform: "translate(-50%, 0)" }}
     >
       🧺

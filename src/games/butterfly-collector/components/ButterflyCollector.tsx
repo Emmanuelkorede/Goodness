@@ -15,7 +15,7 @@ export function ButterflyCollector() {
         { icon: "🌟", label: "Special butterfly = +10" },
       ]}
     >
-      {({ onGameOver }) => <ButterflyCollectorGame onGameOver={onGameOver} />}
+      {({ onGameOver, pausedRef }) => <ButterflyCollectorGame onGameOver={onGameOver} pausedRef={pausedRef} />}
     </GameShell>
   );
 }

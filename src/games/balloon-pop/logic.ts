@@ -23,7 +23,7 @@ function pickBalloonType() {
   return BALLOON_TYPES[0];
 }
 
-export function createBalloon(id: string): Balloon {
+export function createBalloon(id: string, spawnedAt: number): Balloon {
   const type = pickBalloonType();
   return {
     id,
@@ -33,6 +33,7 @@ export function createBalloon(id: string): Balloon {
     color: type.color,
     points: type.points,
     isBonus: type.points > 1,
+    spawnedAt,
   };
 }
 

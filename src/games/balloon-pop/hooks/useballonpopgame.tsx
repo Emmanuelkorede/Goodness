@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { RefObject } from "react";
 import type { Balloon } from "../types";
 import { createBalloon, getSpawnInterval } from "../logic";
 
@@ -7,98 +8,87 @@ const BALLOON_LIFESPAN_MS = 2200;
 const TICK_MS = 100;
 const MAX_MULTIPLIER = 3;
 
-export function useBalloonPopGame(onGameOver: (score: number) => void) {
+export function useBalloonPopGame(pausedRef: RefObject<boolean>, onGameOver: (score: number) => void) {
   const [balloons, setBalloons] = useState<Balloon[]>([]);
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(0);
   const [timeRemaining, setTimeRemaining] = useState(GAME_DURATION_MS);
 
-  // FIX: Initialize with 0 to keep render pure. 
-  // We will set the real time in useEffect.
   const startRef = useRef(0);
+  const pauseBeganAtRef = useRef<number | null>(null);
   const scoreRef = useRef(0);
   const comboRef = useRef(0);
-  
-  // FIX: Provide 'null' as the initial argument
-  const spawnTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const expiryTimeoutsRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+  const balloonsRef = useRef<Balloon[]>([]);
+  const spawnAccumulatorRef = useRef(0);
   const idRef = useRef(0);
   const endedRef = useRef(false);
-
-  const clearExpiry = (id: string) => {
-    const timeout = expiryTimeoutsRef.current.get(id);
-    if (timeout) {
-      clearTimeout(timeout);
-      expiryTimeoutsRef.current.delete(id);
-    }
-  };
-
-  const removeBalloon = useCallback((id: string, missed: boolean) => {
-    setBalloons((prev) => prev.filter((b) => b.id !== id));
-    clearExpiry(id);
-    if (missed) {
-      comboRef.current = 0;
-      setCombo(0);
-    }
-  }, []);
+  const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const pop = useCallback((id: string) => {
-    setBalloons((prev) => {
-      const balloon = prev.find((b) => b.id === id);
-      if (!balloon) return prev;
+    const balloon = balloonsRef.current.find((b) => b.id === id);
+    if (!balloon) return;
 
-      comboRef.current += 1;
-      setCombo(comboRef.current);
-      const multiplier = Math.min(MAX_MULTIPLIER, 1 + Math.floor(comboRef.current / 3) * 0.5);
-      scoreRef.current += Math.round(balloon.points * multiplier);
-      setScore(scoreRef.current);
+    comboRef.current += 1;
+    setCombo(comboRef.current);
+    const multiplier = Math.min(MAX_MULTIPLIER, 1 + Math.floor(comboRef.current / 3) * 0.5);
+    scoreRef.current += Math.round(balloon.points * multiplier);
+    setScore(scoreRef.current);
 
-      return prev.filter((b) => b.id !== id);
-    });
-    clearExpiry(id);
+    balloonsRef.current = balloonsRef.current.filter((b) => b.id !== id);
+    setBalloons(balloonsRef.current);
   }, []);
 
-  // FIX: Use a named function expression "loop" inside useCallback
-  // This completely avoids the temporal dead zone/use-before-declare error.
-  const spawnLoop = useCallback(function loop() {
-    if (endedRef.current) return;
-    const elapsed = Date.now() - startRef.current;
-    if (elapsed >= GAME_DURATION_MS) return;
-
-    const balloon = createBalloon(String(idRef.current++));
-    setBalloons((prev) => [...prev, balloon]);
-
-    const expiry = setTimeout(() => removeBalloon(balloon.id, true), BALLOON_LIFESPAN_MS);
-    expiryTimeoutsRef.current.set(balloon.id, expiry);
-
-    const interval = getSpawnInterval(elapsed, GAME_DURATION_MS);
-    spawnTimeoutRef.current = setTimeout(loop, interval); // Call 'loop' instead of 'spawnLoop'
-  }, [removeBalloon]);
-
   useEffect(() => {
-    // FIX: Set the actual start time the moment the game effect runs
-    startRef.current = Date.now();
-    
-    spawnLoop();
-    
-    const tick = setInterval(() => {
-      const elapsed = Date.now() - startRef.current;
+    endedRef.current = false;
+    startRef.current = performance.now();
+    pauseBeganAtRef.current = null;
+
+    tickRef.current = setInterval(() => {
+      if (endedRef.current) return;
+      const now = performance.now();
+
+      if (pausedRef.current) {
+        if (pauseBeganAtRef.current === null) pauseBeganAtRef.current = now;
+        return;
+      }
+      if (pauseBeganAtRef.current !== null) {
+        startRef.current += now - pauseBeganAtRef.current;
+        pauseBeganAtRef.current = null;
+      }
+
+      const elapsed = now - startRef.current;
       const remaining = Math.max(0, GAME_DURATION_MS - elapsed);
       setTimeRemaining(remaining);
-      
+
+      let missed = false;
+      balloonsRef.current = balloonsRef.current.filter((balloon) => {
+        const expired = elapsed - balloon.spawnedAt >= BALLOON_LIFESPAN_MS;
+        if (expired) missed = true;
+        return !expired;
+      });
+      if (missed) {
+        comboRef.current = 0;
+        setCombo(0);
+      }
+
+      spawnAccumulatorRef.current += TICK_MS;
+      const spawnInterval = getSpawnInterval(elapsed, GAME_DURATION_MS);
+      if (spawnAccumulatorRef.current >= spawnInterval && remaining > 0) {
+        spawnAccumulatorRef.current = 0;
+        balloonsRef.current = [...balloonsRef.current, createBalloon(String(idRef.current++), elapsed)];
+      }
+      setBalloons(balloonsRef.current);
+
       if (remaining <= 0 && !endedRef.current) {
         endedRef.current = true;
-        clearInterval(tick);
-        if (spawnTimeoutRef.current) clearTimeout(spawnTimeoutRef.current);
-        expiryTimeoutsRef.current.forEach(clearTimeout);
+        if (tickRef.current !== null) clearInterval(tickRef.current);
         onGameOver(scoreRef.current);
       }
     }, TICK_MS);
 
     return () => {
-      clearInterval(tick);
-      if (spawnTimeoutRef.current) clearTimeout(spawnTimeoutRef.current);
-      expiryTimeoutsRef.current.forEach(clearTimeout);
+      endedRef.current = true;
+      if (tickRef.current !== null) clearInterval(tickRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

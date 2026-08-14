@@ -25,7 +25,7 @@ function pickButterflyType() {
   return BUTTERFLY_TYPES[0];
 }
 
-export function createButterfly(id: string): Butterfly {
+export function createButterfly(id: string, elapsedMs: number, durationMs: number): Butterfly {
   const type = pickButterflyType();
   return {
     id,
@@ -34,6 +34,8 @@ export function createButterfly(id: string): Butterfly {
     size: type.points >= 10 ? 44 : type.points >= 5 ? 50 : 56,
     color: type.color,
     points: type.points,
+    spawnedAt: elapsedMs,
+    lifespan: getLifespan(elapsedMs, durationMs),
   };
 }
 

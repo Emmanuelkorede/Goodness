@@ -14,7 +14,7 @@ export function MiniRacing() {
         { icon: "💥", label: "One crash ends the run" },
       ]}
     >
-      {({ onGameOver }) => <MiniRacingGame onGameOver={onGameOver} />}
+      {({ onGameOver, pausedRef }) => <MiniRacingGame onGameOver={onGameOver} pausedRef={pausedRef} />}
     </GameShell>
   );
 }

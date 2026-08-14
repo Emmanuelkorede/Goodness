@@ -14,7 +14,7 @@ export function CatchStars() {
         { icon: "💣", label: "Bomb = -3" },
       ]}
     >
-      {({ onGameOver }) => <CatchStarsGame onGameOver={onGameOver} />}
+      {({ onGameOver, pausedRef }) => <CatchStarsGame onGameOver={onGameOver} pausedRef={pausedRef} />}
     </GameShell>
   );
 }
