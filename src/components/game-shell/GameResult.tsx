@@ -1,7 +1,7 @@
 import { Link } from "react-router";
 import { motion } from "framer-motion";
-import { Button } from "../ui/Button";
 import { Badge } from "../ui/Badge";
+import { Button } from "../ui/Button";
 import { usePrefersReducedMotion } from "../../hooks/usePrefersReducedMotion";
 
 interface GameResultProps {
