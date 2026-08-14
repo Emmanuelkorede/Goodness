@@ -1,75 +1,114 @@
-# React + TypeScript + Vite
+# Goodness Arcade 🕹️✨
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> A personal mini game arcade, built from scratch as a 13th birthday gift — for my little sister, Goodness.
 
-Currently, two official plugins are available:
+**Live:** [https://goodness-arcade.vercel.app/arcade](#)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+## About
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Goodness Arcade is a small, self-contained arcade of five original mini-games, wrapped in a dark, premium, mobile-first interface. No accounts, no backend, no ads — just an app that opens straight into an arcade built for one person.
 
-## Expanding the ESLint configuration
+It's installable as a PWA, works fully offline once loaded, and keeps every high score right on the device.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🎮 The Games
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| | Game | What it is |
+|---|---|---|
+| ⭐ | **Catch the Stars** | Drag your basket to catch falling stars — dodge the bombs, chain combos for a multiplier. |
+| 🏎️ | **Mini Racing** | Steer and dodge oncoming traffic. One crash ends the run — the longer you survive, the higher you score. |
+| 🦋 | **Butterfly Collector** | Tap butterflies before they flutter off. Rare ones are worth more, and it only gets faster. |
+| 🎈 | **Balloon Pop** | Pop balloons before they drift away. Chain pops without missing to build your multiplier. |
+| 🧠 | **Brain Quest** | Casual trivia across general knowledge, science, and math — every correct answer teaches you why. |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+More games get added over time — the arcade is built to grow.
 
+---
+
+## ✨ Features
+
+- Splash → Arcade → Game Intro → Countdown → Play → Result, for every game
+- Per-game high scores and play counts, saved locally
+- Quit/pause with a confirmation prompt mid-game
+- Installable as a PWA — works fully offline after first load
+- Dark, restrained visual system with a distinct color identity per game
+- Fully responsive, mobile-first, touch **and** keyboard controls where it makes sense
+- Respects `prefers-reduced-motion`
+
+---
+
+## 🛠️ Tech Stack
+
+- **React** + **TypeScript**
+- **Vite**
+- **Tailwind CSS v4**
+- **Framer Motion** — animation
+- **React Router** — navigation
+- **vite-plugin-pwa** — offline support & installability
+- Canvas 2D (Mini Racing) for a smooth, DOM-free render loop
+
+No backend. No database. No accounts. Everything lives in the browser.
+
+---
+
+## 🚀 Getting Started
+
+```bash
+# install dependencies
+npm install
+
+# run the dev server
+npm run dev
+
+# build for production
+npm run build
+
+# preview the production build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 📱 Installing as an App
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Once it's running (dev or deployed):
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **Desktop (Chrome/Edge):** click the install icon in the address bar
+- **Android:** menu → *Add to Home Screen*
+- **iPhone:** Share button → *Add to Home Screen*
 
+Once installed, it opens full-screen with no browser chrome — just the arcade.
+
+---
+
+## 📁 Project Structure
+
+```text
+src/
+  components/
+    ui/          # generic building blocks — Button, Card, Modal, etc.
+    arcade/      # Home screen pieces — GameCard, ArcadeGrid, Greeting
+    game-shell/  # shared intro → countdown → play → result flow
+  games/
+    catch-stars/
+    mini-racing/
+    butterfly-collector/
+    balloon-pop/
+    brain-quest/
+  data/          # the game registry every screen reads from
+  hooks/
+  lib/
+  types/
+  pages/
 ```
+
+Every game lives in its own folder with its own logic, types, and components — the registry in `data/gameRegistry.ts` is the single source of truth the whole app reads from, so adding a sixth game never means touching the ones already there.
+
+---
+
+## ❤️ Credits
+
+Built specially for Goodness, by her big brother, Job.
+
+Happy birthday. 🎂
