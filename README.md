@@ -2,7 +2,7 @@
 
 > A personal mini game arcade, built from scratch as a 13th birthday gift — for my little sister, Goodness.
 
-**Live:** [https://goodness-arcade.vercel.app/arcade](#)
+**Live:** [https://goodness-arcade.vercel.app/arcade]
 
 ---
 
